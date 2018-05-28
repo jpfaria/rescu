@@ -21,6 +21,10 @@
  */
 package si.mazi.rescu;
 
+import si.mazi.rescu.qume.component.EventPublisher;
+import si.mazi.rescu.qume.interceptor.RestResponseTimeInterceptor;
+import si.mazi.rescu.qume.util.ContextUtil;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
@@ -44,7 +48,10 @@ public final class RestProxyFactory {
      * @return a proxy implementation of restInterface
      */
     public static <I> I createProxy(Class<I> restInterface, String baseUrl, ClientConfig config, Interceptor... interceptors) {
-        return createProxy(restInterface, wrap(new RestInvocationHandler(restInterface, baseUrl, config), interceptors));
+
+        EventPublisher eventPublisher = ContextUtil.getBean(EventPublisher.class);
+
+        return createProxy(restInterface, wrap(new RestInvocationHandler(restInterface, baseUrl, config), new RestResponseTimeInterceptor(eventPublisher)));
     }
 
     static InvocationHandler wrap(InvocationHandler handler, Interceptor... interceptors) {
