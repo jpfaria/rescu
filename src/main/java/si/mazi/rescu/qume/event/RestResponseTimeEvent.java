@@ -16,7 +16,7 @@ public class RestResponseTimeEvent {
 
     private String host;
     private String method;
-    private Double responseTime;
+    private Long responseTime;
     private Integer port;
     private String scheme;
 
