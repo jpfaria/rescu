@@ -170,7 +170,7 @@ public class RestInvocationHandler implements InvocationHandler {
         return httpTemplate.send(invocation.getInvocationUrl(), requestBody, invocation.getAllHttpHeaders(), methodMetadata.getHttpMethod());
     }
 
-    protected Object receiveAndMap(RestMethodMetadata methodMetadata, HttpURLConnection connection) throws IOException {
+    protected Object receiveAndMap(RestMethodMetadata methodMetadata, HttpURLConnection connection) throws Exception {
         InvocationResult invocationResult = httpTemplate.receive(connection);
         return mapInvocationResult(invocationResult, methodMetadata);
     }
@@ -183,7 +183,7 @@ public class RestInvocationHandler implements InvocationHandler {
     }
 
     protected Object mapInvocationResult(InvocationResult invocationResult,
-            RestMethodMetadata methodMetadata) throws IOException {
+            RestMethodMetadata methodMetadata) throws Exception {
         return responseReaderResolver.resolveReader(methodMetadata).read(invocationResult, methodMetadata);
     }
 
