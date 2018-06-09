@@ -22,13 +22,12 @@ public class RestResponseTimeInterceptor implements Interceptor {
     @Override
     public Object aroundInvoke(InvocationHandler h, Object proxy, Method m, Object[] args)
             throws Throwable {
+
         long start = System.nanoTime();
 
         Object result = h.invoke(proxy, m, args);
 
         long elapsed = System.nanoTime() - start;
-
-        log.debug(">>>>>>>>>>>>>>>>>>>>>>>> {} took {} ms. {}", m.getName(), elapsed);
 
         RestInvocationHandler restHandler = (RestInvocationHandler) h;
 
